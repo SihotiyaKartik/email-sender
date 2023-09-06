@@ -1,0 +1,33 @@
+{% block content %}
+<h2 class="text-center">Subscribers List</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Active</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subscriber in subscribers_list %}
+
+    <tr>
+      <td>{{ subscriber.email }}</td>
+      <td>{{ subscriber.first_name }}</td>
+      <td>{% if subscriber.is_active %}Yes{% else %}No{% endif %}</td>
+      <td>
+        <a href="{% url 'update_subscriber' subscriber.pk %}">Edit</a> |
+        <a href="{% url 'delete_subscriber' subscriber.pk %}">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No subscribers available.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'add_subscriber' %}">Add Subscriber</a>
+
+{% include './style.html' %} {% endblock %}
