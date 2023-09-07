@@ -1,0 +1,28 @@
+{% block content %}
+<h2 class="text-center">Campaigns List</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Active Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for camp in campaigns_list %}
+
+    <tr>
+      <td>
+        <a href="{% url 'detail_campaigns' camp.pk%}">{{ camp.subject }}</a>
+      </td>
+      <td>{% if camp.is_active %}Yes{% else %}No{% endif %}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No Campaigns available.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="{% url 'add_campaigns' %}">Add Campaign</a>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% block content %}
+<div class="create_campaign_box">
+  <h2 class="text-center">Create Campaign</h2>
+
+  <form
+    class="create_campaign_form"
+    method="post"
+    action="{% url 'add_campaigns' %}"
+  >
+    {% csrf_token %}
+    <div class="add_campaign_label_field">
+      <label for="subject"> Subject </label>
+      <input type="text" name="subject" id="subject" required />
+    </div>
+    <div class="add_campaign_label_field">
+      <label for="preview_text"> Preview text </label>
+      <textarea
+        rows="6"
+        style="width: 100%; resize: none"
+        name="preview_text"
+        id="preview_text"
+        required
+      ></textarea>
+    </div>
+    <div class="add_campaign_label_field">
+      <label for="article_url"> Aricle Url </label>
+      <input type="text" name="article_url" id="article_url" required />
+    </div>
+    <div class="add_campaign_label_field">
+      <label for="html_content"> Html Content </label>
+      <textarea
+        rows="6"
+        style="width: 100%; resize: none"
+        name="html_content"
+        id="html_content"
+        required
+      ></textarea>
+    </div>
+    <div class="add_campaign_label_field">
+      <label for="plain_text_content"> Plain text content </label>
+      <textarea
+        rows="6"
+        style="width: 100%; resize: none"
+        name="plain_text_content"
+        id="plain_text_content"
+        required
+      ></textarea>
+    </div>
+    <div class="add_campaign_label_field">
+      <label for="published_date"> Published date </label>
+      <input
+        type="datetime"
+        name="published_date"
+        id="published_date"
+        required
+      />
+    </div>
+    <button type="submit">Save</button>
+  </form>
+  <a style="padding: 10" href="{% url 'list_campaigns' %}">Back to list</a>
+</div>
+
+{% include './style.html' %} {% endblock %}

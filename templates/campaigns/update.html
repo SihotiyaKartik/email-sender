@@ -1,0 +1,8 @@
+{% block content %}
+<h2>Update Campaign</h2>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+<a href="{% url 'list_campaigns' %}">Back to List</a>
+{% endblock %}

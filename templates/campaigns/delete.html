@@ -1,0 +1,9 @@
+{% block content %}
+<h2>Confirm Deletion</h2>
+<p>Are you sure you want to delete the campaign "{{ campaign.subject }}"?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Delete</button>
+  <a href="{% url 'list_campaigns' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

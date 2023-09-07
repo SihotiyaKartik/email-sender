@@ -1,0 +1,18 @@
+{% block content %}
+<h2>Campaign Detail</h2>
+<p><strong>Subject:</strong> {{ campaign.subject }}</p>
+<p><strong>Preview Text:</strong> {{ campaign.preview_text }}</p>
+<p><strong>Article URL:</strong> {{ campaign.article_url }}</p>
+<p><strong>HTML Content:</strong></p>
+<div>{{ campaign.html_content | safe }}</div>
+<p><strong>Plain Text Content:</strong></p>
+<div>{{ campaign.plain_text_content | safe }}</div>
+<p><strong>Published Date:</strong> {{ campaign.published_date }}</p>
+<p>
+  <strong>Active:</strong>{% if campaign.is_active %}Yes{% else %}No{% endif %}
+</p>
+<a href="{% url 'update_campaigns' campaign.pk%}">Edit</a>
+<a href="{% url 'delete_campaigns' campaign.pk%}">Delete</a>
+<a href="{% url 'list_campaigns' %}">Back to List</a>
+
+{% endblock %}
