@@ -12,7 +12,11 @@
   <strong>Active:</strong>{% if campaign.is_active %}Yes{% else %}No{% endif %}
 </p>
 <a href="{% url 'update_campaigns' campaign.pk%}">Edit</a>
+<br />
 <a href="{% url 'delete_campaigns' campaign.pk%}">Delete</a>
+<br />
+<a href="{% url 'email_campaigns' campaign.pk%}">Send Campaign</a>
+<br />
 <a href="{% url 'list_campaigns' %}">Back to List</a>
 
 {% endblock %}

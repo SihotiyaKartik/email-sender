@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-from .models import Campaigns
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+import smtplib
+from email.mime.text import MIMEText
 
+from .models import Campaigns
+from subscribers.models import Subscribers
 # Create your views here.
 
 
@@ -49,3 +54,44 @@ class CampaignsDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['campaign'] = self.get_object()
         return context
+
+
+def send_campaign_email(request, pk):
+
+    try:
+
+        campaign = get_object_or_404(Campaigns, pk=pk)
+
+        active_subscribers = Subscribers.objects.filter(is_active=True)
+
+        subject = campaign.subject
+        article_url = campaign.article_url
+        preview_text = campaign.preview_text
+        html_content = campaign.html_content
+        plain_text_content = campaign.plain_text_content
+        published_date = campaign.published_date
+
+        email = render_to_string('campaign_email.html', {
+            'subject': subject,
+            'article_url': article_url,
+            'preview_text': preview_text,
+            'html_content': html_content,
+            'plain_text_content': plain_text_content,
+            'published_date': published_date,
+        })
+
+        for subscriber in active_subscribers:
+
+            send_mail(
+                "TESTING EMAIL",
+                email,
+                None,
+                [subscriber.email],
+                fail_silently=False,
+            )
+
+        return redirect('detail_campaigns', pk=pk)
+
+    except Exception as e:
+
+        return redirect('detail_campaigns', pk=pk)
