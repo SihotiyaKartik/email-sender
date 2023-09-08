@@ -2,10 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
-import smtplib
-from email.mime.text import MIMEText
+from .management.kafka_config import producer
 
 from .models import Campaigns
 from subscribers.models import Subscribers
@@ -82,13 +80,10 @@ def send_campaign_email(request, pk):
 
         for subscriber in active_subscribers:
 
-            send_mail(
-                "TESTING EMAIL",
-                email,
-                None,
-                [subscriber.email],
-                fail_silently=False,
-            )
+            producer.produce('bkpzcrni-mail_system',
+                             key=subscriber.email, value=email)
+
+        producer.flush()
 
         return redirect('detail_campaigns', pk=pk)
 
